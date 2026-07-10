@@ -1,52 +1,71 @@
-# Termux AI CLI Agent Installers
+# 📱 Termux AI CLI Agents
 
-This repository provides scripts to install and run popular AI developer CLI agents on Android devices via **Termux**.
-
-Currently supported CLI agents:
-1. **Google Antigravity CLI (`agy`)** - Runs in a `proot-distro` Ubuntu container.
-2. **OpenClaude CLI (`openclaude`)** - Runs directly inside Termux.
+A curated collection of automated installer and wrapper scripts to run advanced AI developer CLI agents on Android devices via **Termux**.
 
 ---
 
-## ⚡ One-Line Installers & Runners
+## 📋 Table of Contents
+- [Supported Agents](#-supported-agents)
+- [⚡ Quick Start (One-Line Installers)](#-quick-start-one-line-installers)
+  - [Google Antigravity CLI (`agy`)](#1-google-antigravity-cli-agy)
+  - [OpenClaude CLI (`openclaude`)](#2-openclaude-cli-openclaude)
+- [🛠️ Local Usage & Git Cloning](#️-local-usage--git-cloning)
+- [⚙️ How It Works](#️-how-it-works)
+- [📝 License](#-license)
 
-### 🤖 1. Google Antigravity CLI (`agy`)
+---
 
-#### Install:
-Run the following command in Termux to update your packages, install `proot-distro Ubuntu`, and set up the Antigravity CLI:
+## 🤖 Supported Agents
+
+| Agent | Environment | Key Dependencies | Primary Use Case |
+| :--- | :--- | :--- | :--- |
+| **Google Antigravity CLI (`agy`)** | Ubuntu Container (`proot-distro`) | Python, Curl, Ca-certificates | AI-first workspace assistant |
+| **OpenClaude CLI (`openclaude`)** | Native Termux Shell | Node.js (LTS), Git, npm | Fast terminal-based agent interactions |
+
+---
+
+## ⚡ Quick Start (One-Line Installers)
+
+### 1. Google Antigravity CLI (`agy`)
+
+To install packages, set up a `proot-distro Ubuntu` container, and install the Antigravity CLI, execute:
+
 ```bash
 curl -fsSL https://raw.githubusercontent.com/AbuZar-Ansarii/CLI-Agents/main/agy_install.sh | bash
 ```
 
-#### Run:
-To run `agy` against the files in your current working directory, run:
+#### Run CLI (with Workspace Mount):
+Run the command below in any Termux directory. It bind-mounts your current folder to `/workspace` in the container so `agy` can read and write files locally:
+
 ```bash
 curl -fsSL https://raw.githubusercontent.com/AbuZar-Ansarii/CLI-Agents/main/run.sh | bash -s --
 ```
-*(Tip: Pass any `agy` arguments after `--`, for example: `curl -fsSL https://raw.githubusercontent.com/AbuZar-Ansarii/CLI-Agents/main/run.sh | bash -s -- --help`)*
+> [!TIP]
+> You can pass arguments directly. For example:
+> `curl -fsSL https://raw.githubusercontent.com/AbuZar-Ansarii/CLI-Agents/main/run.sh | bash -s -- --help`
 
 ---
 
-### 🧠 2. OpenClaude CLI (`openclaude`)
+### 2. OpenClaude CLI (`openclaude`)
 
-#### Install:
-Run the following command in Termux to update packages, install Node.js, and globally install `openclaude`:
+To install Node.js, apply network optimizations for Termux, and install OpenClaude globally, execute:
+
 ```bash
 curl -fsSL https://raw.githubusercontent.com/AbuZar-Ansarii/CLI-Agents/main/openclaude_install.sh | bash
 ```
-*(Alternatively, you can run the upstream script directly: `curl -sL "https://raw.githubusercontent.com/AbuZar-Ansarii/free-openclaude/master/vanila_install.sh" | bash`)*
 
-#### Run:
-OpenClaude runs natively inside Termux. Once installed, simply type:
+#### Run CLI:
+Since OpenClaude runs natively inside Termux, start it from any folder by typing:
+
 ```bash
 openclaude
 ```
 
 ---
 
-## 🛠️ Offline / Local Usage
+## 🛠️ Local Usage & Git Cloning
 
-If you prefer to clone this repository and run the scripts locally:
+If you prefer to download the repository locally and run the scripts:
 
 1. **Clone the repository:**
    ```bash
@@ -54,23 +73,29 @@ If you prefer to clone this repository and run the scripts locally:
    cd CLI-Agents
    ```
 
-2. **Make scripts executable:**
+2. **Make all scripts executable:**
    ```bash
    chmod +x *.sh
    ```
 
-3. **Install Agents:**
-   * For Antigravity CLI: `./agy_install.sh`
-   * For OpenClaude: `./openclaude_install.sh`
+3. **Install Agents Locally:**
+   * **Antigravity CLI**: `./agy_install.sh`
+   * **OpenClaude**: `./openclaude_install.sh`
 
-4. **Run Agents:**
-   * For Antigravity CLI: `./run.sh [arguments]` (runs bind-mounted to your current folder)
-   * For OpenClaude: `openclaude`
+4. **Run Agents Locally:**
+   * **Antigravity CLI**: `./run.sh [arguments]`
+   * **OpenClaude**: `openclaude`
 
 ---
 
 ## ⚙️ How It Works
 
-* **`agy_install.sh`**: Sets up a `proot-distro` Ubuntu environment, ensures `curl` and `ca-certificates` are configured, and triggers the official Google Antigravity installation pipeline inside the container.
-* **`run.sh`**: Bind-mounts your current Termux directory to `/workspace` inside the Ubuntu container, allowing `agy` to read/modify your local files.
-* **`openclaude_install.sh`**: Installs `nodejs`, `git`, and other core dependencies natively in Termux, applies a Termux network optimization fix, and installs `@gitlawb/openclaude` globally via npm.
+* **`agy_install.sh`**: Installs `proot-distro`, builds a minimal `ubuntu` environment, installs certificates and `curl` inside the container, and downloads the official Antigravity CLI client.
+* **`run.sh`**: Connects your host Termux path to `/workspace` inside the `ubuntu` container and runs the `agy` commands inside it securely.
+* **`openclaude_install.sh`**: Upgrades Termux repository packages, installs native dependencies, overrides the Node.js DNS resolution order to prevent Termux network timeouts (`ipv4first`), and installs `@gitlawb/openclaude`.
+
+---
+
+## 📝 License
+
+This project is open-source and available under the [MIT License](LICENSE).
